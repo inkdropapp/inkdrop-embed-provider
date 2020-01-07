@@ -20,7 +20,6 @@ document.addEventListener('click', function (event) {
 }, false);
 
 const handlePageLoad = window.handlePageLoad = () => {
-  console.log('send!!!!!!')
   if (window.parent) {
     sendMessage({
       message: 'embed:adjust-iframe-size',
