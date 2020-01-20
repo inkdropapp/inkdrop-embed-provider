@@ -6,7 +6,7 @@ function sendMessage(params) {
     id: frameId,
     ...params
   },
-  'file:///');
+  '*');
 }
 
 document.addEventListener('click', function (event) {
