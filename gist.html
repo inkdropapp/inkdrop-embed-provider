@@ -1,8 +1,15 @@
 <html>
   <head>
     <title>embed gist</title>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://gist.github.com;" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline' https://gist.github.com;"
+    />
     <style>
+      html,
+      body {
+        background: transparent;
+      }
       body {
         overflow: hidden;
       }
@@ -13,19 +20,21 @@
       var LOG = false;
       var writes = null;
       var docWrite, docWriteln; // original document.write / writeln
-      var tempDocWriteln = function(str) { tempDocWrite(str + '\n'); };
+      var tempDocWriteln = function (str) {
+        tempDocWrite(str + "\n");
+      };
 
-      function tempDocWrite(){
+      function tempDocWrite() {
         var args = arguments;
 
-        if ( args && args[0] ) {
-          LOG && console.log('document.write() args[0] = ', args[0]);
-          if ( ! writes ) writes = [];
-          writes.push( args[0] );
-        }else {
-          LOG && console.log('document.write() unexpected args = ', args);
+        if (args && args[0]) {
+          LOG && console.log("document.write() args[0] = ", args[0]);
+          if (!writes) writes = [];
+          writes.push(args[0]);
+        } else {
+          LOG && console.log("document.write() unexpected args = ", args);
         }
-      }  
+      }
 
       function overrideDocWrites() {
         if (!docWrite) docWrite = document.write;
@@ -36,11 +45,15 @@
 
       function handleScriptLoaded() {
         if (writes) {
-          LOG && console.log('handleScriptLoaded() writeArray.len = ', writes.length);
-          const el = document.querySelector('#gist');
-          el.innerHTML = writes.join('');
+          LOG &&
+            console.log(
+              "handleScriptLoaded() writeArray.len = ",
+              writes.length,
+            );
+          const el = document.querySelector("#gist");
+          el.innerHTML = writes.join("");
         }
-        writes = []
+        writes = [];
       }
 
       overrideDocWrites();
@@ -48,10 +61,10 @@
 
     <script>
       var query = new URLSearchParams(window.location.search);
-      var url = query.get('url');
+      var url = query.get("url");
 
-      var el = document.createElement('script');
-      el.src = url + '.js';
+      var el = document.createElement("script");
+      el.src = url + ".js";
       document.body.appendChild(el);
       el.onload = handleScriptLoaded;
     </script>
