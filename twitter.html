@@ -1,41 +1,44 @@
 <html>
-  <head>
-    <title>embed tweet</title>
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="script-src 'self' 'unsafe-inline' https://*.twitter.com https://*.twimg.com;"
-    />
-    <style>
-      html,
-      body {
-        background: transparent;
-      }
-      body {
-        overflow: hidden;
-      }
-    </style>
-  </head>
-  <body>
-    <blockquote class="twitter-tweet">
-      <a>Loading tweet..</a>
-    </blockquote>
 
-    <script>
-      var query = new URLSearchParams(window.location.search);
-      var url = query.get("url");
-      var el = document.querySelector(".twitter-tweet > a");
-      el.href = url;
-    </script>
+<head>
+  <title>embed tweet</title>
+  <meta http-equiv="Content-Security-Policy"
+    content="script-src 'self' 'unsafe-inline' https://*.twitter.com https://*.twimg.com;" />
+  <style>
+    html,
+    body {
+      background: transparent;
+    }
 
-    <script
-      src="https://platform.twitter.com/widgets.js"
-      charset="utf-8"
-    ></script>
+    body {
+      overflow: hidden;
+    }
+  </style>
+</head>
 
-    <script src="./common.js"></script>
+<body>
+  <blockquote class="twitter-tweet">
+    <a>Loading tweet..</a>
+  </blockquote>
 
-    <script>
-      twttr.events.bind("loaded", window.handlePageLoad);
-    </script>
-  </body>
+  <script>
+    const query = new URLSearchParams(window.location.search);
+    let url = query.get("url");
+    if (url.includes("x.com/")) {
+      url = url.replace("x.com/", "twitter.com/");
+    }
+
+    const el = document.querySelector(".twitter-tweet > a");
+    el.href = url;
+  </script>
+
+  <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <script src="./common.js"></script>
+
+  <script>
+    twttr.events.bind("loaded", window.handlePageLoad);
+  </script>
+</body>
+
 </html>
