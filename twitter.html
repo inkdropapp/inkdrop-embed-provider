@@ -32,6 +32,10 @@
 
       const el = document.querySelector(".twitter-tweet > a");
       el.href = url;
+
+      if (query.get("theme") === "dark") {
+        el.parentElement.dataset.theme = "dark";
+      }
     </script>
 
     <script
