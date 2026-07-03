@@ -1,4 +1,4 @@
-<html>
+<html data-color-mode="light" data-light-theme="light" data-dark-theme="dark">
   <head>
     <title>embed gist</title>
     <meta name="color-scheme" content="light dark" />
@@ -6,6 +6,20 @@
       http-equiv="Content-Security-Policy"
       content="script-src 'self' 'unsafe-inline' https://gist.github.com;"
     />
+    <!--
+      GitHub's gist embed stylesheet references Primer design tokens
+      (--fontStack-*, --fgColor-*, --bgColor-*, ...) without defining them —
+      they only exist on github.com pages. These files are vendored unmodified
+      from @primer/primitives@11.9.0 (dist/css). The light/dark themes are
+      scoped to the data-color-mode / data-*-theme attributes on <html>.
+    -->
+    <link rel="stylesheet" href="./primer/base-size.css" />
+    <link rel="stylesheet" href="./primer/base-typography.css" />
+    <link rel="stylesheet" href="./primer/typography.css" />
+    <link rel="stylesheet" href="./primer/radius.css" />
+    <link rel="stylesheet" href="./primer/border.css" />
+    <link rel="stylesheet" href="./primer/light.css" />
+    <link rel="stylesheet" href="./primer/dark.css" />
     <style>
       html,
       body {
@@ -16,169 +30,126 @@
       }
     </style>
     <!--
-      Dark theme for gist embeds, enabled via the `theme=dark` query param.
-      Syntax colors vendored from "idle-fingers" in
-      https://github.com/lonekorean/gist-syntax-themes (rawgit CDN is dead).
+      The gist embed stylesheet hardcodes a few light-only colors (chrome
+      borders, .gist-meta background, .pl-* syntax colors) instead of using
+      tokens. Remap them to Primer tokens so they follow the active color
+      mode. Scoped under `body .gist` to out-specify the embed stylesheet,
+      which is injected later in the DOM.
     -->
-    <style id="dark-theme" media="not all">
+    <style>
       body .gist {
         .gist-file {
-          border-color: #555 #555 #444;
+          border-color: var(--borderColor-default);
         }
         .gist-data {
-          border-color: #555;
-          background: #323232;
+          border-bottom-color: var(--borderColor-default);
         }
         .gist-meta {
-          color: #fff;
-          background: #373737;
+          background-color: var(--bgColor-muted);
 
           a {
-            color: #fff;
+            color: var(--fgColor-accent);
           }
         }
         .highlight {
-          background: #323232;
-        }
-        .blob-num,
-        .blob-code-inner,
-        .pl-s2,
-        .pl-stj,
-        .pl-vo,
-        .pl-id,
-        .pl-ii {
-          color: #fff;
-        }
-        .pl-enti,
-        .pl-mb,
-        .pl-pdb {
-          font-weight: 700;
+          color: var(--fgColor-default);
         }
         .pl-c,
-        .pl-c span,
-        .pl-pdc {
-          color: #bc9458;
-          font-style: italic;
+        .pl-c span {
+          color: var(--color-prettylights-syntax-comment);
         }
         .pl-c1,
-        .pl-pdc1,
-        .pl-scp {
-          color: #6c99bb;
-        }
-        .pl-ent,
-        .pl-eoa,
-        .pl-eoai,
-        .pl-eoai .pl-pde,
-        .pl-ko,
-        .pl-kolp,
-        .pl-mc,
-        .pl-mr,
-        .pl-ms,
-        .pl-s3,
-        .pl-sok {
-          color: #ffe5bb;
-        }
-        .pl-mdh,
-        .pl-mdi,
-        .pl-mdr {
-          font-weight: 400;
-        }
-        .pl-mi,
-        .pl-pdi {
-          color: #ffe5bb;
-          font-style: italic;
-        }
-        .pl-sra,
-        .pl-src,
-        .pl-sre {
-          color: #cc3;
-        }
-        .pl-mdht,
-        .pl-mi1 {
-          color: #a5c261;
-          background: rgba(0, 64, 0, 0.5);
-        }
-        .pl-md,
-        .pl-mdhf {
-          color: #b83426;
-          background: rgba(64, 0, 0, 0.5);
-        }
-        .pl-ib,
-        .pl-id,
-        .pl-ii,
-        .pl-iu {
-          background: #b83426;
-        }
-        .pl-ms1 {
-          background: #ffc66d;
-        }
-        .highlight-text-html-basic .pl-ent,
-        .pl-cce,
-        .pl-cn,
-        .pl-coc,
-        .pl-enc,
-        .pl-ens,
-        .pl-k,
-        .pl-kos,
-        .pl-kou,
-        .pl-mh .pl-pdh,
-        .pl-mp,
-        .pl-mp .pl-s3,
-        .pl-mp1 .pl-sf,
-        .pl-mq,
-        .pl-mri,
-        .pl-pde,
-        .pl-pse,
-        .pl-pse .pl-s2,
-        .pl-s,
-        .pl-st,
-        .pl-stp,
-        .pl-sv,
-        .pl-v,
-        .pl-va,
-        .pl-vi,
-        .pl-vpf,
-        .pl-vpu,
-        .pl-mdr {
-          color: #cc7833;
-        }
-        .pl-cos,
-        .pl-ml,
-        .pl-pds,
-        .pl-s1,
-        .pl-sol,
-        .pl-mb,
-        .pl-pdb {
-          color: #a5c261;
+        .pl-s .pl-v {
+          color: var(--color-prettylights-syntax-constant);
         }
         .pl-e,
-        .pl-en,
-        .pl-entl,
-        .pl-mo,
-        .pl-sc,
-        .pl-sf,
-        .pl-smi,
-        .pl-smp,
-        .pl-mdh,
-        .pl-mdi {
-          color: #ffc66d;
+        .pl-en {
+          color: var(--color-prettylights-syntax-entity);
         }
-        .pl-ef,
-        .pl-enf,
-        .pl-enm,
-        .pl-entc,
-        .pl-entm,
-        .pl-eoac,
-        .pl-eoac .pl-pde,
-        .pl-eoi,
-        .pl-mai .pl-sf,
-        .pl-mm,
-        .pl-pdv,
-        .pl-smc,
-        .pl-som,
+        .pl-smi,
+        .pl-s .pl-s1 {
+          color: var(--color-prettylights-syntax-storage-modifier-import);
+        }
+        .pl-ent {
+          color: var(--color-prettylights-syntax-entity-tag);
+        }
+        .pl-k {
+          color: var(--color-prettylights-syntax-keyword);
+        }
+        .pl-s,
+        .pl-pds,
+        .pl-s .pl-pse .pl-s1,
         .pl-sr,
-        .pl-enti {
-          color: #b83426;
+        .pl-sr .pl-cce,
+        .pl-sr .pl-sre,
+        .pl-sr .pl-sra {
+          color: var(--color-prettylights-syntax-string);
+        }
+        .pl-v,
+        .pl-smw {
+          color: var(--color-prettylights-syntax-variable);
+        }
+        .pl-bu {
+          color: var(--color-prettylights-syntax-brackethighlighter-unmatched);
+        }
+        .pl-ii {
+          color: var(--color-prettylights-syntax-invalid-illegal-text);
+          background-color: var(--color-prettylights-syntax-invalid-illegal-bg);
+        }
+        .pl-c2 {
+          color: var(--color-prettylights-syntax-carriage-return-text);
+          background-color: var(--color-prettylights-syntax-carriage-return-bg);
+        }
+        .pl-sr .pl-cce {
+          font-weight: bold;
+          color: var(--color-prettylights-syntax-string-regexp);
+        }
+        .pl-ml {
+          color: var(--color-prettylights-syntax-markup-list);
+        }
+        .pl-mh,
+        .pl-mh .pl-en,
+        .pl-ms {
+          font-weight: bold;
+          color: var(--color-prettylights-syntax-markup-heading);
+        }
+        .pl-mi {
+          font-style: italic;
+          color: var(--color-prettylights-syntax-markup-italic);
+        }
+        .pl-mb {
+          font-weight: bold;
+          color: var(--color-prettylights-syntax-markup-bold);
+        }
+        .pl-md {
+          color: var(--color-prettylights-syntax-markup-deleted-text);
+          background-color: var(--color-prettylights-syntax-markup-deleted-bg);
+        }
+        .pl-mi1 {
+          color: var(--color-prettylights-syntax-markup-inserted-text);
+          background-color: var(--color-prettylights-syntax-markup-inserted-bg);
+        }
+        .pl-mc {
+          color: var(--color-prettylights-syntax-markup-changed-text);
+          background-color: var(--color-prettylights-syntax-markup-changed-bg);
+        }
+        .pl-mi2 {
+          color: var(--color-prettylights-syntax-markup-ignored-text);
+          background-color: var(--color-prettylights-syntax-markup-ignored-bg);
+        }
+        .pl-mdr {
+          font-weight: bold;
+          color: var(--color-prettylights-syntax-meta-diff-range);
+        }
+        .pl-ba {
+          color: var(--color-prettylights-syntax-brackethighlighter-angle);
+        }
+        .pl-sg {
+          color: var(--color-prettylights-syntax-sublimelinter-gutter-mark);
+        }
+        .pl-corl {
+          text-decoration: underline;
+          color: var(--color-prettylights-syntax-constant-other-reference-link);
         }
       }
     </style>
@@ -220,6 +191,13 @@
             );
           const el = document.querySelector("#gist");
           el.innerHTML = writes.join("");
+          // GitHub's embed markup pins data-color-mode="light" on
+          // .gist-file; strip it so the subtree follows <html>'s color mode.
+          el.querySelectorAll("[data-color-mode]").forEach(function (node) {
+            node.removeAttribute("data-color-mode");
+            node.removeAttribute("data-light-theme");
+            node.removeAttribute("data-dark-theme");
+          });
         }
         writes = [];
       }
@@ -232,7 +210,7 @@
       var url = query.get("url");
 
       if (query.get("theme") === "dark") {
-        document.getElementById("dark-theme").media = "all";
+        document.documentElement.dataset.colorMode = "dark";
       }
 
       var el = document.createElement("script");
