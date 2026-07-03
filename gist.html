@@ -14,6 +14,173 @@
         overflow: hidden;
       }
     </style>
+    <!--
+      Dark theme for gist embeds, enabled via the `theme=dark` query param.
+      Syntax colors vendored from "idle-fingers" in
+      https://github.com/lonekorean/gist-syntax-themes (rawgit CDN is dead).
+    -->
+    <style id="dark-theme" media="not all">
+      body .gist {
+        .gist-file {
+          border-color: #555 #555 #444;
+        }
+        .gist-data {
+          border-color: #555;
+          background: #323232;
+        }
+        .gist-meta {
+          color: #fff;
+          background: #373737;
+
+          a {
+            color: #fff;
+          }
+        }
+        .highlight {
+          background: #323232;
+        }
+        .blob-num,
+        .blob-code-inner,
+        .pl-s2,
+        .pl-stj,
+        .pl-vo,
+        .pl-id,
+        .pl-ii {
+          color: #fff;
+        }
+        .pl-enti,
+        .pl-mb,
+        .pl-pdb {
+          font-weight: 700;
+        }
+        .pl-c,
+        .pl-c span,
+        .pl-pdc {
+          color: #bc9458;
+          font-style: italic;
+        }
+        .pl-c1,
+        .pl-pdc1,
+        .pl-scp {
+          color: #6c99bb;
+        }
+        .pl-ent,
+        .pl-eoa,
+        .pl-eoai,
+        .pl-eoai .pl-pde,
+        .pl-ko,
+        .pl-kolp,
+        .pl-mc,
+        .pl-mr,
+        .pl-ms,
+        .pl-s3,
+        .pl-sok {
+          color: #ffe5bb;
+        }
+        .pl-mdh,
+        .pl-mdi,
+        .pl-mdr {
+          font-weight: 400;
+        }
+        .pl-mi,
+        .pl-pdi {
+          color: #ffe5bb;
+          font-style: italic;
+        }
+        .pl-sra,
+        .pl-src,
+        .pl-sre {
+          color: #cc3;
+        }
+        .pl-mdht,
+        .pl-mi1 {
+          color: #a5c261;
+          background: rgba(0, 64, 0, 0.5);
+        }
+        .pl-md,
+        .pl-mdhf {
+          color: #b83426;
+          background: rgba(64, 0, 0, 0.5);
+        }
+        .pl-ib,
+        .pl-id,
+        .pl-ii,
+        .pl-iu {
+          background: #b83426;
+        }
+        .pl-ms1 {
+          background: #ffc66d;
+        }
+        .highlight-text-html-basic .pl-ent,
+        .pl-cce,
+        .pl-cn,
+        .pl-coc,
+        .pl-enc,
+        .pl-ens,
+        .pl-k,
+        .pl-kos,
+        .pl-kou,
+        .pl-mh .pl-pdh,
+        .pl-mp,
+        .pl-mp .pl-s3,
+        .pl-mp1 .pl-sf,
+        .pl-mq,
+        .pl-mri,
+        .pl-pde,
+        .pl-pse,
+        .pl-pse .pl-s2,
+        .pl-s,
+        .pl-st,
+        .pl-stp,
+        .pl-sv,
+        .pl-v,
+        .pl-va,
+        .pl-vi,
+        .pl-vpf,
+        .pl-vpu,
+        .pl-mdr {
+          color: #cc7833;
+        }
+        .pl-cos,
+        .pl-ml,
+        .pl-pds,
+        .pl-s1,
+        .pl-sol,
+        .pl-mb,
+        .pl-pdb {
+          color: #a5c261;
+        }
+        .pl-e,
+        .pl-en,
+        .pl-entl,
+        .pl-mo,
+        .pl-sc,
+        .pl-sf,
+        .pl-smi,
+        .pl-smp,
+        .pl-mdh,
+        .pl-mdi {
+          color: #ffc66d;
+        }
+        .pl-ef,
+        .pl-enf,
+        .pl-enm,
+        .pl-entc,
+        .pl-entm,
+        .pl-eoac,
+        .pl-eoac .pl-pde,
+        .pl-eoi,
+        .pl-mai .pl-sf,
+        .pl-mm,
+        .pl-pdv,
+        .pl-smc,
+        .pl-som,
+        .pl-sr,
+        .pl-enti {
+          color: #b83426;
+        }
+      }
+    </style>
   </head>
   <body>
     <script>
@@ -62,6 +229,10 @@
     <script>
       var query = new URLSearchParams(window.location.search);
       var url = query.get("url");
+
+      if (query.get("theme") === "dark") {
+        document.getElementById("dark-theme").media = "all";
+      }
 
       var el = document.createElement("script");
       el.src = url + ".js";
